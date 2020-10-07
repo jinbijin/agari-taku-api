@@ -1,0 +1,21 @@
+language: csharp
+solution: AgariTaku.sln
+os: linux
+dist: bionic
+mono: none
+addons:
+  snaps:
+  - name: dotnet-sdk
+    confinement: classic
+    channel: 5.0/beta
+script:
+- sudo snap alias dotnet-sdk.dotnet dotnet
+- dotnet restore
+- dotnet test
+deploy:
+- provider: script
+  cleanup: false
+  script: bash deploy/deploy.sh
+  on:
+    all_branches: true
+    condition: $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$
