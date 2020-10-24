@@ -1,0 +1,12 @@
+﻿@page "/"
+
+<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText class="rounded-md border-2" id="name" @bind-Value="model.LobbyId" />
+
+    <InputText class="rounded-md border-2" id="user" @bind-Value="model.UserName" />
+
+    <button class="btn btn-subtle" type="submit">Connect</button>
+</EditForm>

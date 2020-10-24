@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logic.Dependency\Logic.Dependency.csproj" />
+    <ProjectReference Include="..\Logic.Schema\Logic.Schema.csproj" />
+  </ItemGroup>
+
+</Project>

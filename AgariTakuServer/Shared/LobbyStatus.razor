@@ -1,0 +1,37 @@
+﻿@using AgariTakuServer.Components
+@using Logic.Schema.Types 
+@inherits DisposableComponentBase
+
+<div @attributes="@InputAttributes">
+    <div class="h-full flex flex-col">
+        <div class="top-row flex flex-row items-center">
+            <a class="btn btn-nav flex-none font-brand" href=""><span class="text-gray-400">アガリ</span><span>卓</span></a>
+            <div class="flex-grow"></div>
+            <button class="btn btn-nav flex-none block md:hidden" @onclick="ToggleLobbyStatus">
+                <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex-grow bg-primary-light text-white p-2 @LobbyStatusCssClass" @onclick="ToggleLobbyStatus">
+            @if (LobbyStatusService.IsConnected)
+            {
+                @if (LobbyStatusService.Status is LobbyConnectionStatus status)
+                {
+                    <div class="px-2 py-1">Connected to @(status.LobbyId) as @(status.UserName)</div>
+                    <ul>
+                        @foreach (var (user, index) in LobbyStatusService.Users.Select((user, index) => (user, index)))
+                        {
+                            <LobbyUserItem Index="index" User="user" CurrentUserId="status.Id"/>
+                        }
+                    </ul>
+                }
+            }
+            else
+            {
+                <p>Not connected to lobby yet.</p>
+            }
+        </div>
+    </div>
+</div>

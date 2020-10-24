@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="HubEndpoint"
+    targetNamespace="http://tempuri.org/Xsd/HubEndpoint.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/Xsd/HubEndpoint.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:element name="HubEndpoint">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Url" type="xs:string"></xs:element>
+				<xs:element name="References">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Reference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Client" type="EndpointType" />
+				<xs:element name="Server" type="EndpointType" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="EndpointType">
+		<xs:sequence>
+			<xs:element name="Methods">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Method" type="MethodType" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReferenceType">
+		<xs:attribute name="Namespace" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="MethodType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" />
+			<xs:element name="Parameters">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Parameter" type="ParameterType" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ParameterType">
+		<xs:attribute name="Name" use="required" type="xs:string" />
+		<xs:attribute name="Type" use="required" type="xs:string" />
+	</xs:complexType>
+</xs:schema>

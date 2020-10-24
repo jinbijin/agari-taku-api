@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<HubEndpoint xmlns="http://tempuri.org/Xsd/HubEndpoint.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tempuri.org/Xsd/HubEndpoint.xsd ../Xsd/HubEndpoint.xsd">
+	<Url>/lobby</Url>
+	<References>
+		<Reference Namespace="System" />
+		<Reference Namespace="System.Collections.Generic" />
+		<Reference Namespace="Logic.Schema.Types" />
+	</References>
+	<Client>
+		<Methods>
+			<Method>
+				<Name>UpdateConnectionStatus</Name>
+				<Parameters>
+					<Parameter Name="connection" Type="LobbyConnectionStatus" />
+				</Parameters>
+			</Method>
+			<Method>
+				<Name>ReplaceUsers</Name>
+				<Parameters>
+					<Parameter Name="users" Type="IReadOnlyCollection&lt;LobbyUser&gt;" />
+				</Parameters>
+			</Method>
+			<Method>
+				<Name>UpdateUser</Name>
+				<Parameters>
+					<Parameter Name="user" Type="LobbyUser" />
+				</Parameters>
+			</Method>
+		</Methods>
+	</Client>
+	<Server>
+		<Methods>
+			<Method>
+				<Name>Identify</Name>
+				<Parameters>
+					<Parameter Name="lobbyId" Type="string" />
+					<Parameter Name="maybeUserId" Type="Guid?" />
+					<Parameter Name="userName" Type="string" />
+				</Parameters>
+			</Method>
+			<Method>
+				<Name>SetReady</Name>
+				<Parameters>
+					<Parameter Name="isReady" Type="bool" />
+				</Parameters>
+			</Method>
+		</Methods>
+	</Server>
+</HubEndpoint>

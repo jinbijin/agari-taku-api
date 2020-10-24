@@ -1,0 +1,56 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "CrimsonPro";
+    src: url("../fonts/CrimsonPro-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "NotoSerifJP Bold";
+    src: url("../fonts/NotoSerifJP-Bold.otf");
+}
+
+@layer components {
+    .btn {
+        @apply px-2 py-1 rounded-md;
+    }
+
+    .btn-nav {
+        @apply bg-primary-dark text-white;
+    }
+    .btn-nav:hover {
+        @apply bg-primary-darker;
+    }
+
+    .btn-subtle {
+        @apply bg-gray-100;
+    }
+    .btn-subtle:hover {
+        @apply bg-gray-200;
+    }
+
+    .top-row {
+        @apply h-12 px-2;
+    }
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }

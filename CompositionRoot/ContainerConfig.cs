@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Logic.Dependency;
+using Logic.Lobby.Types;
 using Microsoft.Extensions.DependencyInjection;
-using SimpleInjector;
-using SimpleInjector.Lifestyles;
-using System;
 using System.Collections.Generic;
-using Web.Hubs;
+using Web.Hubs.Clients;
 
 namespace CompositionRoot
 {
@@ -12,28 +10,37 @@ namespace CompositionRoot
     {
         public static void ConfigureContainer(this IServiceCollection services)
         {
-            services.AddSimpleInjector(BuildContainer(), options =>
-            {
-                options.AddAspNetCore()
-                    .AddControllerActivation();
-            });
-
-            services.AddScoped(typeof(IHubActivator<>), typeof(SimpleInjectorHubActivator<>));
+            services.AddScoped<ILobbyClientContext, LobbyClientContext>();
+            RegisterBindings(services, Logic.Lobby.Dependency.Bindings);
         }
 
-        private static Container BuildContainer()
+        private static void RegisterBindings(IServiceCollection services, IEnumerable<BindingBase> bindings)
         {
-            Container container = new();
-            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-            IEnumerable<Type> types = container.GetTypesToRegister<Hub>(typeof(DebugHub).Assembly);
-            foreach (Type type in types)
+            foreach (BindingBase binding in bindings)
             {
-                container.Register(type, type, Lifestyle.Scoped);
+                switch (binding)
+                {
+                    case SimpleBinding simpleBinding:
+                        RegisterSimpleBinding(services, simpleBinding);
+                        break;
+                }
             }
-            // Enter registrations here...
+        }
 
-            return container;
+        private static void RegisterSimpleBinding(IServiceCollection services, SimpleBinding simpleBinding)
+        {
+            switch (simpleBinding.Lifetime)
+            {
+                case Lifetime.Singleton:
+                    services.AddSingleton(simpleBinding.ServiceType, simpleBinding.ImplementationType);
+                    break;
+                case Lifetime.Scoped:
+                    services.AddScoped(simpleBinding.ServiceType, simpleBinding.ImplementationType);
+                    break;
+                case Lifetime.Transient:
+                    services.AddTransient(simpleBinding.ServiceType, simpleBinding.ImplementationType);
+                    break;
+            }
         }
     }
 }
