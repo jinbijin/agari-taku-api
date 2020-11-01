@@ -1,5 +1,4 @@
-﻿@page "/lobby/"
-@using AgariTakuServer.Components
+﻿@using AgariTakuServer.Components
 @using Logic.Schema.Types
 @inherits DisposableComponentBase
 
@@ -8,4 +7,5 @@
     <h1>Lobby @(status.LobbyId)</h1>
     <p>@StatusText(status)</p>
     <button class="btn btn-subtle" @onclick="ToggleReady">@ButtonText(status)</button>
+    <button class="btn btn-subtle" @onclick="Disconnect">Disconnect</button>
 }

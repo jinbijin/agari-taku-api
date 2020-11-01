@@ -1,0 +1,17 @@
+﻿<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <p>
+        <div>Lobby ID</div>
+        <InputText class="rounded-md border-2" id="name" @bind-Value="model.LobbyId" />
+    </p>
+
+    <p>
+        <div>User name</div>
+        <InputText class="rounded-md border-2" id="user" @bind-Value="model.UserName" />
+    </p>
+
+    <ValidationSummary />
+
+    <button class="btn btn-subtle" type="submit">Connect</button>
+</EditForm>

@@ -12,10 +12,18 @@ namespace AgariTakuServer.Shared
         private string? LobbyStatusCssClass => collapseLobbyStatus ? "block" : "hidden md:block";
 
         [Inject]
+        private NavigationManager NavigationManager { get; init; }
+
+        [Inject]
         private LobbyStatusService LobbyStatusService { get; init; }
 
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object>? InputAttributes { get; init; }
+
+        private void NavigateHome()
+        {
+            NavigationManager.NavigateTo("/", true);
+        }
 
         private void ToggleLobbyStatus()
         {
@@ -31,8 +39,6 @@ namespace AgariTakuServer.Shared
         public override void Dispose()
         {
             LobbyStatusService.OnChange -= ChangeHandler;
-
-            LobbyStatusService.Disconnect().Wait();
         }
 
         private void ChangeHandler()

@@ -1,4 +1,5 @@
 using AgariTakuServer.Services;
+using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
 using CompositionRoot;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,12 +36,16 @@ namespace AgariTakuServer
                     new[] { "application/octet-stream" });
             });
 
+            services.AddStorage();
+
             services.ConfigureContainer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.ConfigureContainer();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

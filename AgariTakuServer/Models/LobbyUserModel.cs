@@ -9,7 +9,7 @@ namespace AgariTakuServer.Models
         public string LobbyId { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(12, ErrorMessage = "User name is too long.")]
+        [StringLength(12, ErrorMessage = "User name must be at most 12 characters long.")]
         public string UserName { get; set; } = string.Empty;
     }
 }

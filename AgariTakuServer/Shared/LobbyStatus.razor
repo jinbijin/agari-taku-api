@@ -5,7 +5,7 @@
 <div @attributes="@InputAttributes">
     <div class="h-full flex flex-col">
         <div class="top-row flex flex-row items-center">
-            <a class="btn btn-nav flex-none font-brand" href=""><span class="text-gray-400">アガリ</span><span>卓</span></a>
+            <a class="btn btn-nav flex-none font-brand" @onclick="NavigateHome"><span class="text-gray-400">アガリ</span><span>卓</span></a>
             <div class="flex-grow"></div>
             <button class="btn btn-nav flex-none block md:hidden" @onclick="ToggleLobbyStatus">
                 <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

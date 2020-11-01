@@ -1,4 +1,5 @@
-﻿using Logic.Schema.Types;
+﻿using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
+using Logic.Schema.Types;
 using Logic.Schema.Types.Clients;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -10,12 +11,14 @@ namespace AgariTakuServer.Services
 {
     public class LobbyStatusService : LobbyClientBase
     {
+        private readonly SessionStorage _sessionStorage;
         private Dictionary<Guid, LobbyUser> _users = new();
         private LobbyConnectionStatus? _status;
         private readonly object _writeLock = new();
 
-        public LobbyStatusService(IConfiguration config) : base(config)
+        public LobbyStatusService(IConfiguration config, SessionStorage sessionStorage) : base(config)
         {
+            _sessionStorage = sessionStorage;
         }
 
         public IReadOnlyCollection<LobbyUser> Users =>
@@ -32,7 +35,7 @@ namespace AgariTakuServer.Services
         {
             await SetupConnection();
 
-            await Identify(lobbyId, null, userName);
+            await Identify(lobbyId, await GetSessionUserId(), userName);
         }
 
         public async Task Disconnect()
@@ -41,6 +44,7 @@ namespace AgariTakuServer.Services
 
             _users = new();
             _status = null;
+            NotifyStateChanged();
         }
 
         public async Task ToggleReady()
@@ -51,6 +55,10 @@ namespace AgariTakuServer.Services
 
         protected override void UpdateConnectionStatus(LobbyConnectionStatus status)
         {
+            if (_status == null)
+            {
+                SetSessionUserId(status.UserId);
+            }
             _status = status;
             NotifyStateChanged();
         }
@@ -103,6 +111,22 @@ namespace AgariTakuServer.Services
             {
                 _users.Add(user.Id, user);
             }
+        }
+
+        private async Task<Guid?> GetSessionUserId()
+        {
+            string? userIdString = await _sessionStorage.GetItemAsync<string>("userId");
+            if (userIdString != null && Guid.TryParse(userIdString.Trim('"'), out Guid userId) && userId != Guid.Empty)
+            {
+                return userId;
+            }
+
+            return null;
+        }
+
+        private void SetSessionUserId(Guid userId)
+        {
+            _sessionStorage.SetItemAsync("userId", $"\"{userId}\"");
         }
     }
 }

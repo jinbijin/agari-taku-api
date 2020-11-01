@@ -10,6 +10,9 @@ namespace AgariTakuServer.Pages
         [Inject]
         private LobbyStatusService LobbyStatusService { get; init; }
 
+        [Parameter]
+        public EventCallback OnDisconnect { get; init; }
+
         private string StatusText(LobbyConnectionStatus status)
         {
             return status.ReadySince.HasValue ? "Waiting for game to start..." : "You are not ready yet.";
@@ -18,6 +21,12 @@ namespace AgariTakuServer.Pages
         private string ButtonText(LobbyConnectionStatus status)
         {
             return status.ReadySince.HasValue ? "Cancel" : "Ready!";
+        }
+
+        private async Task Disconnect()
+        {
+            await LobbyStatusService.Disconnect();
+            await OnDisconnect.InvokeAsync();
         }
 
         private async Task ToggleReady()
@@ -35,7 +44,7 @@ namespace AgariTakuServer.Pages
         {
             LobbyStatusService.OnChange -= ChangeHandler;
 
-            LobbyStatusService.Disconnect().Wait();
+            Disconnect().Wait();
         }
 
         private void ChangeHandler()

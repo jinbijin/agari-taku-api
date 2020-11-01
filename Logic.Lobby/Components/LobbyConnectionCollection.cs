@@ -13,12 +13,21 @@ namespace Logic.Lobby.Components
 
         public LobbyConnection AddConnection(string connectionId, LobbyConnectionInitializer initializer)
         {
+            KeyValuePair<string, LobbyConnection> existingPair = GetKeyValuePairByLobbyAndUser(initializer.LobbyId, initializer.UserId);
             LobbyConnection connection = new(initializer);
             lock (_writeLock)
             {
+                if (existingPair.Key != null)
+                {
+                    _connections.Remove(existingPair.Key);
+                    existingPair.Value.IsConnected = true;
+                    _connections.Add(connectionId, existingPair.Value);
+                    return existingPair.Value;
+                }
+
                 _connections.Add(connectionId, connection);
+                return connection;
             }
-            return connection;
         }
 
         public LobbyConnection? GetConnection(string connectionId)
@@ -27,9 +36,9 @@ namespace Logic.Lobby.Components
             return maybeConnection;
         }
 
-        public LobbyConnection? GetConnectionByLobbyAndUser(string lobbyId, Guid userId)
+        private KeyValuePair<string, LobbyConnection> GetKeyValuePairByLobbyAndUser(string lobbyId, Guid userId)
         {
-            return _connections.Values.SingleOrDefault(connection => connection.LobbyId == lobbyId && connection.UserId == userId);
+            return _connections.SingleOrDefault(pair => pair.Value.LobbyId == lobbyId && pair.Value.UserId == userId);
         }
 
         public IReadOnlyCollection<LobbyUser> GetConnections(string lobbyId)

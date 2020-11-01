@@ -9,7 +9,6 @@ namespace Logic.Lobby.Components
     {
         LobbyConnection AddConnection(string connectionId, LobbyConnectionInitializer initializer);
         LobbyConnection? GetConnection(string connectionId);
-        LobbyConnection? GetConnectionByLobbyAndUser(string lobbyId, Guid userId);
         IReadOnlyCollection<LobbyUser> GetConnections(string lobbyId);
         void RemoveConnection(string connectionId);
         void SetReady(LobbyConnection connection, bool isReady);

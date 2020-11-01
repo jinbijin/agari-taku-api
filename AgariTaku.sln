@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgariTakuServer", "AgariTak
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.Schema", "Logic.Schema\Logic.Schema.csproj", "{7A69F0F8-ED06-47F3-8CAF-29132129DE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic.Generators", "Logic.Generators\Logic.Generators.csproj", "{C1A18A38-05A9-472B-B7FE-7DC3152A73EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.Generators", "Logic.Generators\Logic.Generators.csproj", "{C1A18A38-05A9-472B-B7FE-7DC3152A73EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

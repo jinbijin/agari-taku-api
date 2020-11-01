@@ -38,7 +38,6 @@ namespace Logic.Lobby.Components
             if (maybeConnection is LobbyConnection connection)
             {
                 connection.IsConnected = false;
-                _connections.RemoveConnection(connectionId);
 
                 await _context.Clients.Group(connection.LobbyId).UpdateUser(connection.ToLobbyUser());
                 await _context.Groups.RemoveFromGroupAsync(connectionId, connection.LobbyId);

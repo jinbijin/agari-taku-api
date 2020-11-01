@@ -39,7 +39,7 @@ namespace Logic.Generators.Files
             stringBuilder.AppendLine();
             stringBuilder.AppendLine("        protected async Task SetupConnection()");
             stringBuilder.AppendLine("        {");
-            stringBuilder.AppendLine("            string baseUrl = _config.GetValue<string>(\"Urls\");");
+            stringBuilder.AppendLine("            string baseUrl = _config[\"Urls\"];");
             stringBuilder.AppendLine("            _connection = new HubConnectionBuilder().WithUrl($\"{baseUrl}{HubUrl}\").Build();");
             stringBuilder.AppendLine();
             foreach (MethodType method in endpoint.Client.Methods)
